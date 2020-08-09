@@ -25,16 +25,22 @@ WeatherInfo:
 
 
 WeatherInfoGetter: - (Static Class)
-  + getCurrentWeatherByCityNameFullyParsed(String cityName): WeatherInfo
-  + getCurrentWeatherByCoordsFullyParsed(int latitude, int longitude): WeatherInfo
-  + _getCurrentWeatherByCityNameFromApi(String cityName): dict
-  + _getCurrentWeatherByCoordsFromApi(int latitude, int longitude): dict
-  + _parseJsonFromCurrentWeather(dict): WeatherInfo
+  + getCurrentWeatherByCityNameFromApi(String cityName): dict
+  + getCurrentWeatherByCoordsFromApi(int latitude, int longitude): dict
+  + parseJsonFromCurrentWeather(dict): WeatherInfo
 
-  + get5Day3HourForecastByCityNameFullyParsed(String cityName): list of WeatherInfo
-  + get5Day3HourForecastByCoordsFullyParsed(int latitude, int longitude): list of WeatherInfo
-  + _get5Day3HourForecastByCityNameFromApi(String cityName): dict
-  + _get5Day3HourForecastByCoordsFromApi(int latitude, int longitude): dict
-  + _parseJsonFrom5Day3HourForecast(dict): list of WeatherInfo
+  + get5Day3HourForecastByCityNameFromApi(String cityName): dict
+  + get5Day3HourForecastByCoordsFromApi(int latitude, int longitude): dict
+  + parseJsonFrom5Day3HourForecast(dict): list of WeatherInfo
 
   + getIconForCorrespondingWeather(String iconCode): Image
+
+
+Model:
+  + init()
+  
+  - currentWeatherInfo: WeatherInfo
+  - next5DaysOfWeatherInfo: list of WeatherInfo
+
+  + getCurrentAndNext5DaysWeatherInfoByCityName(String cityName): None
+  + getCurrentAndNext5DaysWeatherInfoByCoords(int latitude, int longitude): None
