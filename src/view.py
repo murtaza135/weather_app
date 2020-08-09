@@ -26,30 +26,34 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         self.mainLayout = QtWidgets.QGridLayout()
-        self.mainLayout.setSpacing(0)
+        # self.mainLayout.setSpacing(0)
+        # self.mainLayout.setVerticalSpacing(0)
+        # self.mainLayout.setRowStretch(1, 100)
+        # self.mainLayout.setColumnStretch(1, 1)
         self.centralWidget = QtWidgets.QWidget()
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
 
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("background-color: lightgreen")
+        # self.mainLayout.setVerticalSpacing(0)
+        # self.searchBox.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.searchBox.setFixedHeight(25)
-        print(self.searchBox.sizePolicy())
-        print(self.searchBox.sizeHint())
-        self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4, alignment=Qt.AlignTop)
+        self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
         self.searchButton.setStyleSheet("background-color: lightgreen")
+        # self.searchButton.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         self.searchButton.setFixedHeight(25)
-        self.mainLayout.addWidget(self.searchButton, 0, 5, alignment=Qt.AlignTop)
+        self.mainLayout.addWidget(self.searchButton, 0, 5)
 
         layoutLeft = QtWidgets.QVBoxLayout()
         layoutLeft.setSpacing(0)
-        self.mainLayout.addLayout(layoutLeft, 1, 0, 1, 2, alignment=Qt.AlignTop)
+        self.mainLayout.addLayout(layoutLeft, 1, 0, 1, 2)
 
         self.locationTimeFrame = QtWidgets.QFrame()
         self.locationTimeFrame.setFixedHeight(45)
-        layoutLeft.addWidget(self.locationTimeFrame, alignment=Qt.AlignTop)
+        layoutLeft.addWidget(self.locationTimeFrame)
 
         locationTimeLayout = QtWidgets.QVBoxLayout(self.locationTimeFrame)
         locationTimeLayout.setSpacing(0)
@@ -58,26 +62,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.locationLabel.setStyleSheet("background-color: lightgreen")
         self.locationLabel.setText("Location (0.00, 1.00)")
         self.locationLabel.setFixedHeight(15)
-        locationTimeLayout.addWidget(self.locationLabel, alignment=Qt.AlignTop)
+        locationTimeLayout.addWidget(self.locationLabel)
 
         self.timeLabel = QtWidgets.QLabel()
         self.timeLabel.setStyleSheet("background-color: lightgreen")
         self.timeLabel.setText("Time")
         self.timeLabel.setFixedHeight(15)
-        locationTimeLayout.addWidget(self.timeLabel, alignment=Qt.AlignTop)
+        locationTimeLayout.addWidget(self.timeLabel)
 
         self.weatherPicture = QtWidgets.QLabel()
         self.weatherPicture.setStyleSheet("background-color: lightgreen")
         self.weatherPicture.setPixmap(QtGui.QPixmap("../images/test1.png"))
         self.weatherPicture.setFixedHeight(60)
-        layoutLeft.addWidget(self.weatherPicture, alignment=Qt.AlignTop)
+        layoutLeft.addWidget(self.weatherPicture)
 
         self.longDescriptionLabel = QtWidgets.QLabel()
         self.longDescriptionLabel.setStyleSheet("background-color: lightgreen")
         self.longDescriptionLabel.setText("Long Description of weather, this is a test text aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah")
         self.longDescriptionLabel.setFixedHeight(30)
         self.longDescriptionLabel.setWordWrap(True)
-        layoutLeft.addWidget(self.longDescriptionLabel, alignment=Qt.AlignTop)
+        layoutLeft.addWidget(self.longDescriptionLabel)
 
         # actualTempInCelcius
         # humidityPercent
@@ -87,7 +91,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.remainingWeatherInfoFrame = QtWidgets.QFrame()
         self.remainingWeatherInfoFrame.setFixedHeight(100)
-        layoutLeft.addWidget(self.remainingWeatherInfoFrame, alignment=Qt.AlignTop)
+        layoutLeft.addWidget(self.remainingWeatherInfoFrame)
 
         remainingWeatherInfoLayout = QtWidgets.QGridLayout(self.remainingWeatherInfoFrame)
         layoutLeft.setSpacing(0)
@@ -96,28 +100,31 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actualTempInCelcius.setStyleSheet("background-color: lightgreen")
         self.actualTempInCelcius.setText("actualTempInCelcius")
         self.actualTempInCelcius.setFixedHeight(15)
-        remainingWeatherInfoLayout.addWidget(self.actualTempInCelcius, alignment=Qt.AlignTop)
+        remainingWeatherInfoLayout.addWidget(self.actualTempInCelcius)
 
         self.humidityPercent = QtWidgets.QLabel()
         self.humidityPercent.setStyleSheet("background-color: lightgreen")
         self.humidityPercent.setText("humidityPercent")
         self.humidityPercent.setFixedHeight(15)
-        remainingWeatherInfoLayout.addWidget(self.humidityPercent, alignment=Qt.AlignTop)
+        remainingWeatherInfoLayout.addWidget(self.humidityPercent)
 
         self.windSpeedMphAndDirection = QtWidgets.QLabel()
         self.windSpeedMphAndDirection.setStyleSheet("background-color: lightgreen")
         self.windSpeedMphAndDirection.setText("windSpeedMphAndDirection")
         self.windSpeedMphAndDirection.setFixedHeight(15)
-        remainingWeatherInfoLayout.addWidget(self.windSpeedMphAndDirection, alignment=Qt.AlignTop)
+        remainingWeatherInfoLayout.addWidget(self.windSpeedMphAndDirection)
 
         self.cloudinessPercent = QtWidgets.QLabel()
         self.cloudinessPercent.setStyleSheet("background-color: lightgreen")
         self.cloudinessPercent.setText("cloudinessPercent")
         self.cloudinessPercent.setFixedHeight(15)
-        remainingWeatherInfoLayout.addWidget(self.cloudinessPercent, alignment=Qt.AlignTop)
+        remainingWeatherInfoLayout.addWidget(self.cloudinessPercent)
 
         self.rainInMmForLast3Hours = QtWidgets.QLabel()
         self.rainInMmForLast3Hours.setStyleSheet("background-color: lightgreen")
         self.rainInMmForLast3Hours.setText("rainInMmForLast3Hours")
         self.rainInMmForLast3Hours.setFixedHeight(15)
-        remainingWeatherInfoLayout.addWidget(self.rainInMmForLast3Hours, alignment=Qt.AlignTop)
+        remainingWeatherInfoLayout.addWidget(self.rainInMmForLast3Hours)
+
+        self.bottomSpacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
+        self.mainLayout.addItem(self.bottomSpacer, 2, 0, 1, 4)
