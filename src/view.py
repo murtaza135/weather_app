@@ -19,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # palette.setColor(QtGui.QPalette.Background, QtGui.QColor(Qt.cyan))
         # self.setPalette(palette)
         # self.setAutoFillBackground(True)
+        self.setStyleSheet("background-color: cyan")
 
     def initUI(self):
         # palette = QtGui.QPalette()
@@ -46,22 +47,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mainLayout.addLayout(layoutLeft, 1, 0, 1, 2)
 
         self.locationTimeFrame = QtWidgets.QFrame()
-        self.locationTimeFrame.setFixedHeight(45)
+        self.locationTimeFrame.setFixedHeight(75)
         layoutLeft.addWidget(self.locationTimeFrame)
 
         locationTimeLayout = QtWidgets.QVBoxLayout(self.locationTimeFrame)
         locationTimeLayout.setSpacing(0)
 
         self.locationLabel = QtWidgets.QLabel()
-        self.locationLabel.setStyleSheet("background-color: lightgreen")
+        self.locationLabel.setStyleSheet("color: white;" "font-size: 32px;" "padding-left: 5px")
         self.locationLabel.setText("Location (0.00, 1.00)")
-        self.locationLabel.setFixedHeight(15)
+        self.locationLabel.setFixedHeight(33)
         locationTimeLayout.addWidget(self.locationLabel)
 
         self.timeLabel = QtWidgets.QLabel()
-        self.timeLabel.setStyleSheet("background-color: lightgreen")
-        self.timeLabel.setText("Time")
-        self.timeLabel.setFixedHeight(15)
+        self.timeLabel.setStyleSheet("color: white; font-size: 16px; padding-left: 11px")
+        self.timeLabel.setText("3 hours ago")
+        self.timeLabel.setFixedHeight(23)
         locationTimeLayout.addWidget(self.timeLabel)
 
         self.weatherPicture = QtWidgets.QLabel()
