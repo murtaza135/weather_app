@@ -1,0 +1,26 @@
+Create a weather app which does the following:
+
+  - allow the user to search for weather information based upon 1 of 3 things:
+	+ city name
+	+ coordinates
+
+  - display the following information after the user has chosen his city or coords:
+	+ city name + country name
+	+ coords
+	+ short weather description, eg. clear, rain, snow, etc
+	+ long weather description, eg. clear sky
+	+ actual temperature in celcius
+	+ feels like temperature in celcius
+	+ humidity
+	+ wind speed + direction
+	+ cloudiness level
+	+ mist level
+	+ amount of rain in last few hours
+	+ amount of snow in last few hours
+	+ time at which measurement was taken (taking into account timezone)
+
+  - information will be displayed for the last 12 hours in 3 hour separations, and should give the user the ability
+    to display info for up to the last 48 hours. It should also provide weather details for the current time, 
+    regardless of whether it fits into the 3 hour separations or not
+
+  - the interface should display icons which match the corresponding weather conditions
