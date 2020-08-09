@@ -26,24 +26,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         self.mainLayout = QtWidgets.QGridLayout()
-        # self.mainLayout.setSpacing(0)
-        # self.mainLayout.setVerticalSpacing(0)
-        # self.mainLayout.setRowStretch(1, 100)
-        # self.mainLayout.setColumnStretch(1, 1)
+        self.mainLayout.setHorizontalSpacing(7)
         self.centralWidget = QtWidgets.QWidget()
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
 
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("background-color: lightgreen")
-        # self.mainLayout.setVerticalSpacing(0)
-        # self.searchBox.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.searchBox.setFixedHeight(25)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
         self.searchButton.setStyleSheet("background-color: lightgreen")
-        # self.searchButton.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         self.searchButton.setFixedHeight(25)
         self.mainLayout.addWidget(self.searchButton, 0, 5)
 
@@ -83,18 +77,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.longDescriptionLabel.setWordWrap(True)
         layoutLeft.addWidget(self.longDescriptionLabel)
 
-        # actualTempInCelcius
-        # humidityPercent
-        # windSpeedMph + windDirectionDegrees
-        # cloudinessPercent
-        # rainInMmForLast3Hours
-
         self.remainingWeatherInfoFrame = QtWidgets.QFrame()
         self.remainingWeatherInfoFrame.setFixedHeight(100)
         layoutLeft.addWidget(self.remainingWeatherInfoFrame)
 
         remainingWeatherInfoLayout = QtWidgets.QGridLayout(self.remainingWeatherInfoFrame)
-        layoutLeft.setSpacing(0)
+        remainingWeatherInfoLayout.setSpacing(0)
 
         self.actualTempInCelcius = QtWidgets.QLabel()
         self.actualTempInCelcius.setStyleSheet("background-color: lightgreen")
@@ -127,4 +115,4 @@ class MainWindow(QtWidgets.QMainWindow):
         remainingWeatherInfoLayout.addWidget(self.rainInMmForLast3Hours)
 
         self.bottomSpacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
-        self.mainLayout.addItem(self.bottomSpacer, 2, 0, 1, 4)
+        self.mainLayout.addItem(self.bottomSpacer, 2, 0)
