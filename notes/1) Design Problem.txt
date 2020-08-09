@@ -1,6 +1,6 @@
 Create a weather app which does the following:
 
-  - allow the user to search for weather information based upon 1 of 3 things:
+  - allow the user to search for weather information based upon 1 of 2 things:
 	+ city name
 	+ coordinates
 

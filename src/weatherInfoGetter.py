@@ -1,0 +1,4 @@
+
+
+class WeatherInfoGetter:
+    pass

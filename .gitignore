@@ -132,3 +132,5 @@ dmypy.json
 .venv.bat
 .venv.bash
 agps_errors.txt
+.vscode/
+.vscode/settings.json

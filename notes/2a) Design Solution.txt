@@ -1,39 +1,40 @@
 WeatherInfo:
   + init(*args, **kwargs)
 
-  - city_name: String
-  - country_name: String
-  - coords: tuple(int lat, int lon)
-  - short_weather_description: String
-  - long_weather_description: String
-  - actual_temp_in_celcius: int
-  - feels_like_temp_in_celcius: int
-  - humidity_percent: int
-  - wind_speed_mph: int
-  - wind_direction_degrees: int
-  - cloudiness_percent:  int
-  - rain_in_mm_for_last_3_hours: int
-  - snow_in_mm_for_last_3_hours: int
-  - weather_icon_code: String
-  - weather_icon_image: image
-  - time_info_recorded: DateTime or Time
+  - cityName: String
+  - countryName: String
+  - coords: tuple(int latitude, int longitude)
+  - shortWeatherDescription: String
+  - longWeatherDescription: String
+  - actualTempInCelcius: int
+  - feelsLikeTempInCelcius: int
+  - humidityPercent: int
+  - windSpeedMph: int
+  - windDirectionDegrees: int
+  - cloudinessPercent:  int
+  - rainInMmForLast3Hours: int
+  - snowInMmForLast3Hours: int
+  - weatherIconCode: String
+  - weatherIconImage: Image
+  - timeInfoRecorded: DateTime or Time
 
-  + is_rain_low_med_or_high(): Enum("low", "slight", "moderate", "Heavy", "Very Heavy") - from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
-  + is_snow_low_med_or_high(): Enum("low", "med", "high")
-  + is_wind_speed_low_med_or_high(): Enum() - check "https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale"
+  + isRainLowMedOrHigh(): Enum("low", "slight", "moderate", "Heavy", "Very Heavy") - from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
+  + isSnowLowMedOrHigh(): Enum("low", "med", "high")
+  + isWindSpeedLowMedOrHigh(): Enum() - check "https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale"
+  + getWindSpeedDirectionInNESW(): Enum("north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest")
 
 
 WeatherInfoGetter: - (Static Class)
-  + get_current_weather_by_city_name_fully_parsed(String city_name): WeatherInfo
-  + get_current_weather_by_lat_lon_fully_parsed(int lat, int lon): WeatherInfo
-  + _get_current_weather_by_city_name_from_api(String city_name): dict
-  + _get_current_weather_by_lat_lon_from_api(int lat, int lon): dict
-  + _parse_json_from_current_weather(dict): WeatherInfo
+  + getCurrentWeatherByCityNameFullyParsed(String cityName): WeatherInfo
+  + getCurrentWeatherByCoordsFullyParsed(int latitude, int longitude): WeatherInfo
+  + _getCurrentWeatherByCityNameFromApi(String cityName): dict
+  + _getCurrentWeatherByCoordsFromApi(int latitude, int longitude): dict
+  + _parseJsonFromCurrentWeather(dict): WeatherInfo
 
-  + get_5_day_3_hour_forecast_by_city_name_fully_parsed(String city_name): list of WeatherInfo
-  + get_5_day_3_hour_forecast_by_lat_lon_fully_parsed(int lat, int lon): list of WeatherInfo
-  + _get_5_day_3_hour_forecast_by_city_name_from_api(String city_name): dict
-  + _get_5_day_3_hour_forecast_by_lat_lon_from_api(int lat, int lon): dict
-  + _parse_json_from_5_day_3_hour_forecast(dict): list of WeatherInfo
+  + get5Day3HourForecastByCityNameFullyParsed(String cityName): list of WeatherInfo
+  + get5Day3HourForecastByCoordsFullyParsed(int latitude, int longitude): list of WeatherInfo
+  + _get5Day3HourForecastByCityNameFromApi(String cityName): dict
+  + _get5Day3HourForecastByCoordsFromApi(int latitude, int longitude): dict
+  + _parseJsonFrom5Day3HourForecast(dict): list of WeatherInfo
 
-  + get_icon_for_corresponding_weather(String icon_code): image
+  + getIconForCorrespondingWeather(String iconCode): Image
