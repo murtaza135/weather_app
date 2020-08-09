@@ -3,8 +3,9 @@ from PySide2.QtCore import Qt
 
 class MainWindow(QtWidgets.QMainWindow):
     
-    def __init__(self):
+    def __init__(self, model):
         super().__init__()
+        self.model = model
         self.initMainWindow()
         self.initUI()
 
