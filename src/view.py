@@ -124,25 +124,37 @@ class MainWindow(QtWidgets.QMainWindow):
         spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         layoutLeft.addItem(spacer)
 
-        layoutRight = QtWidgets.QGridLayout()
+        layoutRight = QtWidgets.QHBoxLayout()
         layoutRight.setSpacing(0)
         self.mainLayout.addLayout(layoutRight, 1, 2, 1, 3)
 
-        weatherOne = OneTimeWeatherInfo()
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 0)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 1)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 2)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 3)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 4)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 5)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 6)
-        layoutRight.addWidget(OneTimeWeatherInfo(), 0, 7)
+        spacer = QtWidgets.QSpacerItem(25, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        layoutRight.addItem(spacer)
+
+        self.leftArrowPicture = QtWidgets.QLabel()
+        leftArrowPixmap = QtGui.QPixmap("../images/back.png")
+        leftArrowPixmap = leftArrowPixmap.scaled(25, 25, QtCore.Qt.KeepAspectRatio)
+        self.leftArrowPicture.setPixmap(leftArrowPixmap)
+        self.leftArrowPicture.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        layoutRight.addWidget(self.leftArrowPicture)
+        self.leftArrowPicture.hide()
+
+        self.specifiedHourWeatherInfoWidgets = [SpecifiedHourWeatherInfo() for _ in range(8)]
+        for widget in self.specifiedHourWeatherInfoWidgets:
+            layoutRight.addWidget(widget)
+
+        self.rightArrowPicture = QtWidgets.QLabel()
+        rightArrowPixmap = QtGui.QPixmap("../images/next.png")
+        rightArrowPixmap = rightArrowPixmap.scaled(25, 25, QtCore.Qt.KeepAspectRatio)
+        self.rightArrowPicture.setPixmap(rightArrowPixmap)
+        self.rightArrowPicture.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        layoutRight.addWidget(self.rightArrowPicture)
 
         spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addItem(spacer, 2, 0)
 
 
-class OneTimeWeatherInfo(QtWidgets.QFrame):
+class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
 
     def __init__(self, parent=None):
         super().__init__(parent)
