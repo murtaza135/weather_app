@@ -45,7 +45,7 @@ class WeatherInfoGetter:
 
     @classmethod
     def parseJsonFromCurrentWeather(cls, jsonDict):
-        weather = WeatherInfo(
+        weatherInfoObject = WeatherInfo(
             cityName=jsonDict["name"],
             countryName=jsonDict["sys"]["country"] if "country" in jsonDict["sys"] else None,
             coords=(jsonDict["coord"]["lat"], jsonDict["coord"]["lon"]),
@@ -64,7 +64,7 @@ class WeatherInfoGetter:
         )
 
         logger.info("Successfully created WeatherInfo object")
-        return weather
+        return weatherInfoObject
 
     @classmethod
     def get5Day3HourForecastByCityNameFromApi(cls, cityName):

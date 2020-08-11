@@ -16,11 +16,23 @@ logger.addHandler(file_handler)
 class Model:
 
     def __init__(self):
-        currentWeatherInfo = None
-        next5DaysOfWeatherInfo = list()
+        self.currentWeatherInfo = None
+        self.next5DaysOfWeatherInfo = list()
 
     def getCurrentAndNext5DaysWeatherInfoByCityName(self, cityName):
-        pass
+        try:
+            currentWeather = WeatherInfoGetter.getCurrentWeatherByCityNameFromApi(cityName)
+            self.currentWeatherInfo = WeatherInfoGetter.parseJsonFromCurrentWeather(currentWeather)
+            next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi(cityName)
+            self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
+        except (ConnectionError, TypeError, KeyError) as e:
+            logger.error(e)
 
     def getCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
-        pass
+        try:
+            currentWeather = WeatherInfoGetter.getCurrentWeatherByCoordsFromApi(latitude, longitude)
+            self.currentWeatherInfo = WeatherInfoGetter.parseJsonFromCurrentWeather(currentWeather)
+            next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCoordsFromApi(latitude, longitude)
+            self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
+        except (ConnectionError, TypeError, KeyError) as e:
+            logger.error(e)
