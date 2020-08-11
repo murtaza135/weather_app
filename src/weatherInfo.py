@@ -19,8 +19,8 @@ class WeatherInfo:
     
     def __init__(self, cityName, coords, shortWeatherDescription, longWeatherDescription,
                 actualTemperatureInCelcius, feelsLikeTemperatureInCeclius, humidityPercent,
-                windSpeedMph, windDirectionDegrees, cloudinessPercent, weatherIconIDCode, weatherIconImage, timeInfoWasRecorded,
-                countryName=None, rainInMmForLast3Hours=0):
+                windSpeedMph, windDirectionDegrees, cloudinessPercent, weatherIconIDCode,
+                weatherIconImage, timeInfoWasRecorded, countryName=None, rainInMmForLast3Hours=0):
         checkIfVarIsType(cityName, str)
         self.cityName = cityName
         checkIfVarIsType(countryName, str) if countryName is not None else None
@@ -49,20 +49,19 @@ class WeatherInfo:
         self.weatherIconIDCode = weatherIconIDCode
         checkIfVarIsType(weatherIconImage, bytes)
         self.weatherIconImage = weatherIconImage
-        # checkIfVarIsType(timezoneDelta, int)
         checkIfVarIsType(timeInfoWasRecorded, int)
-        self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded) #- timedelta(seconds=timezoneDelta)
+        self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded)
 
         logger.info(f"{self.__class__}: {self.cityName}, {self.timeInfoWasRecorded} - instantiated")
 
     def getRainSeverity(self):
         # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
 
-        if self.rainInMmForLast3Hours < 0.5 * 3:
+        if self.rainInMmForLast3Hours < 0.1 * 3:
             return RainSeverity.low
-        elif self.rainInMmForLast3Hours >= 0.5 * 3 and self.rainInMmForLast3Hours < 2 * 3:
+        elif self.rainInMmForLast3Hours >= 0.1 * 3 and self.rainInMmForLast3Hours < 0.5 * 3:
             return RainSeverity.slight
-        elif self.rainInMmForLast3Hours >= 2 * 3 and self.rainInMmForLast3Hours < 4 * 3:
+        elif self.rainInMmForLast3Hours >= 0.5 * 3 and self.rainInMmForLast3Hours < 4 * 3:
             return RainSeverity.moderate
         elif self.rainInMmForLast3Hours >= 4 * 3 and self.rainInMmForLast3Hours < 8 * 3:
             return RainSeverity.heavy
@@ -109,9 +108,9 @@ class WeatherInfo:
 class RainSeverity(Enum):
     # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
 
-    low = 1  # 0-0.5 mm/hr
-    slight = 2  # 0.5-2 mm/hr
-    moderate = 3  # 2-4 mm/hr
+    low = 1  # 0-0.1 mm/hr
+    slight = 2  # 0.1-0.5 mm/hr
+    moderate = 3  # 0.5-4 mm/hr
     heavy = 4  # 4-8 mm/hr
     veryHeavy = 5  # 8+ mm/hr
 

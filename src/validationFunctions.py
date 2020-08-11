@@ -12,4 +12,3 @@ def checkVarAgainstMultipleTypes(var, *args):
             break
     else:
         raise TypeError(f"{var} did not match any from {args}")
-        

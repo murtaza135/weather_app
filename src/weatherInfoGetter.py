@@ -124,19 +124,3 @@ class WeatherInfoGetter:
             raise ConnectionError(f"Could not connect to {url}")
         logger.info(f"Successfully retrieved image from {url}")
         return request.content
-
-    
-# a = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi("London")
-# b = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(a)
-# print(b.timeInfoWasRecorded)
-# for x in b:
-#     print(x.timeInfoWasRecorded)
-#     print(x.countryName)
-#     print(x.rainInMmForLast3Hours)
-# from pprint import pprint
-# pprint(a)
-# print(type(a))
-
-# import json
-# with open("test.json", "w", encoding="utf-8") as f:
-#     json.dump(a, f, sort_keys=True, indent=4)
