@@ -169,15 +169,15 @@ class CurrentWeatherInfoDisplay(QtWidgets.QFrame):
     def updateTextAndImagesOnAllWidgets(self):
         currentWeatherInfo = self.model.currentWeatherInfo
         if currentWeatherInfo is not None:
-            self.locationLabel.setText(str(currentWeatherInfo.coords))
-            self.timeLabel.setText(str(currentWeatherInfo.timeInfoWasRecorded))
-            self.actualTemperatureLabel.setText(str(currentWeatherInfo.actualTemperatureInCelcius))
-            self.longDescriptionLabel.setText(str(currentWeatherInfo.longWeatherDescription))
-            self.feelsLikeTemeperatureLabel.setText(str(currentWeatherInfo.feelsLikeTemperatureInCeclius))
-            self.humidityPercentLabel.setText(str(currentWeatherInfo.humidityPercent))
-            self.windSpeedMphLabel.setText(str(currentWeatherInfo.windSpeedMph))
-            self.cloudinessPercentLabel.setText(str(currentWeatherInfo.cloudinessPercent))
-            self.rainInMmForLast3HoursLabel.setText(str(currentWeatherInfo.rainInMmForLast3Hours))
+            self.locationLabel.setText(f"{currentWeatherInfo.cityName} {currentWeatherInfo.coords}")
+            self.timeLabel.setText(f"Today {currentWeatherInfo.getTimeInfoWasRecorded()}")
+            self.actualTemperatureLabel.setText(f"{currentWeatherInfo.actualTemperatureInCelcius}°C")
+            self.longDescriptionLabel.setText(f"{currentWeatherInfo.longWeatherDescription}")
+            self.feelsLikeTemeperatureLabel.setText(f"Feels Like: {currentWeatherInfo.feelsLikeTemperatureInCeclius}°C")
+            self.humidityPercentLabel.setText(f"Humidity: {currentWeatherInfo.humidityPercent}%")
+            self.windSpeedMphLabel.setText(f"Wind: {currentWeatherInfo.windSpeedMph}mph {currentWeatherInfo.getWindSpeedDirectionInNESW()} ({currentWeatherInfo.getWindSpeedSeverity()})")
+            self.cloudinessPercentLabel.setText(f"Cloudiness: {currentWeatherInfo.cloudinessPercent}%")
+            self.rainInMmForLast3HoursLabel.setText(f"Rain: {currentWeatherInfo.getRainSeverity()}")
 
             weatherPixmap = QtGui.QPixmap()
             weatherPixmap.loadFromData(currentWeatherInfo.weatherIconImage)
@@ -307,11 +307,11 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
     def updateTextAndImagesOnAllWidgets(self, index):
         next5DaysOfWeatherInfo = self.model.next5DaysOfWeatherInfo
         if type(next5DaysOfWeatherInfo) == list and len(next5DaysOfWeatherInfo) > 0:
-            self.timeLabel.setText(str(next5DaysOfWeatherInfo[index].timeInfoWasRecorded))
-            self.temperatureLabel.setText(str(next5DaysOfWeatherInfo[index].actualTemperatureInCelcius))
-            self.cloudinessLabel.setText(str(next5DaysOfWeatherInfo[index].cloudinessPercent))
-            self.rainLabel.setText(str(next5DaysOfWeatherInfo[index].rainInMmForLast3Hours))
-            self.windSpeedLabel.setText(str(next5DaysOfWeatherInfo[index].windSpeedMph))
+            self.timeLabel.setText(f"{next5DaysOfWeatherInfo[index].getTimeInfoWasRecorded()}")
+            self.temperatureLabel.setText(f"{next5DaysOfWeatherInfo[index].actualTemperatureInCelcius}°C")
+            self.cloudinessLabel.setText(f"{next5DaysOfWeatherInfo[index].cloudinessPercent}%")
+            self.rainLabel.setText(f"{next5DaysOfWeatherInfo[index].getRainSeverity()}")
+            self.windSpeedLabel.setText(f"{next5DaysOfWeatherInfo[index].getWindSpeedSeverity()}")
 
             weatherIconPixmax = QtGui.QPixmap()
             weatherIconPixmax.loadFromData(next5DaysOfWeatherInfo[index].weatherIconImage)
