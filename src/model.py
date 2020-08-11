@@ -26,6 +26,8 @@ class Model:
             next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi(cityName)
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
         except (ConnectionError, TypeError, KeyError) as e:
+            self.currentWeatherInfo = None
+            self.next5DaysOfWeatherInfo = list()
             logger.error(e)
 
     def getCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
@@ -35,4 +37,6 @@ class Model:
             next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCoordsFromApi(latitude, longitude)
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
         except (ConnectionError, TypeError, KeyError) as e:
+            self.currentWeatherInfo = None
+            self.next5DaysOfWeatherInfo = list()
             logger.error(e)
