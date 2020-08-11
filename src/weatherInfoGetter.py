@@ -1,4 +1,5 @@
 import logging
+from weatherInfo import WeatherInfo
 
 
 
@@ -13,4 +14,31 @@ logger.addHandler(file_handler)
 
 
 class WeatherInfoGetter:
-    pass
+    
+    @staticmethod
+    def getCurrentWeatherByCityNameFromApi(cityName):
+        return dict()
+
+    @staticmethod
+    def getCurrentWeatherByCoordsFromApi(latitude, longitude):
+        return dict()
+
+    @staticmethod
+    def parseJsonFromCurrentWeather(dict):
+        return WeatherInfo
+
+    @staticmethod
+    def get5Day3HourForecastByCityNameFromApi(cityName):
+        return dict()
+
+    @staticmethod
+    def get5Day3HourForecastByCoordsFromApi(latitude, longitude):
+        return dict()
+
+    @staticmethod
+    def parseJsonFrom5Day3HourForecast(dict):
+        return list() # of WeatherInfo
+
+    @staticmethod
+    def getIconForCorrespondingWeather(iconCode):
+        return # image
