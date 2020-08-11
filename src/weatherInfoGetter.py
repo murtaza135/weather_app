@@ -12,7 +12,7 @@ logger.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler("../logs/weather_info_getter.log")
 file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
-file_handler.setLevel(logging.DEBUG)
+file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
 
 
@@ -47,20 +47,20 @@ class WeatherInfoGetter:
     def parseJsonFromCurrentWeather(cls, jsonDict):
         weather = WeatherInfo(
             cityName=jsonDict["name"],
-            countryName=jsonDict["sys"]["country"] if "country" in jsonDict else None,
+            countryName=jsonDict["sys"]["country"] if "country" in jsonDict["sys"] else None,
             coords=(jsonDict["coord"]["lat"], jsonDict["coord"]["lon"]),
             shortWeatherDescription=jsonDict["weather"][0]["main"],
             longWeatherDescription=jsonDict["weather"][0]["description"],
             actualTemperatureInCelcius=jsonDict["main"]["temp"],
             feelsLikeTemperatureInCeclius=jsonDict["main"]["feels_like"],
             humidityPercent=jsonDict["main"]["humidity"],
+            rainInMmForLast3Hours=jsonDict["rain"]["3h"] if "rain" in jsonDict and "3h" in jsonDict["rain"] else 0,
             windSpeedMph=jsonDict["wind"]["speed"],
             windDirectionDegrees=jsonDict["wind"]["deg"],
             cloudinessPercent=jsonDict["clouds"]["all"],
             weatherIconIDCode=jsonDict["weather"][0]["icon"],
             weatherIconImage=cls.getIconByteImageForCorrespondingWeather(jsonDict["weather"][0]["icon"]),
-            timeInfoWasRecorded=jsonDict["dt"],
-            timezoneDelta=jsonDict["timezone"]
+            timeInfoWasRecorded=jsonDict["dt"]
         )
 
         logger.info("Successfully created WeatherInfo object")
@@ -95,27 +95,25 @@ class WeatherInfoGetter:
         for i in range(len(jsonDict["list"])):
             weather = WeatherInfo(
                 cityName=jsonDict["city"]["name"],
-                countryName=jsonDict["city"]["country"] if "country" in jsonDict else None,
+                countryName=jsonDict["city"]["country"] if "country" in jsonDict["city"] else None,
                 coords=(jsonDict["city"]["coord"]["lat"], jsonDict["city"]["coord"]["lon"]),
                 shortWeatherDescription=jsonDict["list"][i]["weather"][0]["main"],
                 longWeatherDescription=jsonDict["list"][i]["weather"][0]["description"],
                 actualTemperatureInCelcius=jsonDict["list"][i]["main"]["temp"],
                 feelsLikeTemperatureInCeclius=jsonDict["list"][i]["main"]["feels_like"],
                 humidityPercent=jsonDict["list"][i]["main"]["humidity"],
+                rainInMmForLast3Hours=jsonDict["list"][i]["rain"]["3h"] if "rain" in jsonDict["list"][i] and "3h" in jsonDict["list"][i]["rain"] else 0,
                 windSpeedMph=jsonDict["list"][i]["wind"]["speed"],
                 windDirectionDegrees=jsonDict["list"][i]["wind"]["deg"],
                 cloudinessPercent=jsonDict["list"][i]["clouds"]["all"],
                 weatherIconIDCode=jsonDict["list"][i]["weather"][0]["icon"],
                 weatherIconImage=cls.getIconByteImageForCorrespondingWeather(jsonDict["list"][i]["weather"][0]["icon"]),
-                timeInfoWasRecorded=jsonDict["dt"],
-                timezoneDelta=jsonDict["city"]["timezone"]
+                timeInfoWasRecorded=jsonDict["list"][i]["dt"]
             )
             weatherInfoList.append(weather)
 
         logger.info("Successfully created list of WeatherInfo objects")
-        return WeatherInfoList
-
-
+        return weatherInfoList
 
     @staticmethod
     def getIconByteImageForCorrespondingWeather(iconCode):
@@ -128,11 +126,17 @@ class WeatherInfoGetter:
         return request.content
 
     
-a = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi("London")
+# a = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi("London")
+# b = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(a)
+# print(b.timeInfoWasRecorded)
+# for x in b:
+#     print(x.timeInfoWasRecorded)
+#     print(x.countryName)
+#     print(x.rainInMmForLast3Hours)
 # from pprint import pprint
 # pprint(a)
 # print(type(a))
 
-import json
-with open("test.json", "w", encoding="utf-8") as f:
-    json.dump(a, f, sort_keys=True, indent=4)
+# import json
+# with open("test.json", "w", encoding="utf-8") as f:
+#     json.dump(a, f, sort_keys=True, indent=4)

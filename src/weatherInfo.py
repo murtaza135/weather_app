@@ -1,7 +1,7 @@
 import logging
 from enum import Enum
-from validationFunctions import checkIfVarIsType
-from datetime import datetime
+from validationFunctions import checkIfVarIsType, checkVarAgainstMultipleTypes
+from datetime import datetime, timedelta
 
 
 
@@ -10,7 +10,7 @@ logger.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler("../logs/weather_info.log")
 file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
-file_handler.setLevel(logging.DEBUG)
+file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
 
 
@@ -19,9 +19,8 @@ class WeatherInfo:
     
     def __init__(self, cityName, coords, shortWeatherDescription, longWeatherDescription,
                 actualTemperatureInCelcius, feelsLikeTemperatureInCeclius, humidityPercent,
-                windSpeedMph, windDirectionDegrees, cloudinessPercent, rainInMmForLast3Hours,
-                snowInMmForLast3Hours, weatherIconIDCode, weatherIconImage, timeInfoWasRecorded,
-                countryName=None, timezoneDelta=0):
+                windSpeedMph, windDirectionDegrees, cloudinessPercent, weatherIconIDCode, weatherIconImage, timeInfoWasRecorded,
+                countryName=None, rainInMmForLast3Hours=0):
         checkIfVarIsType(cityName, str)
         self.cityName = cityName
         checkIfVarIsType(countryName, str) if countryName is not None else None
@@ -32,13 +31,15 @@ class WeatherInfo:
         self.shortWeatherDescription = shortWeatherDescription
         checkIfVarIsType(longWeatherDescription, str)
         self.longWeatherDescription = longWeatherDescription
-        checkIfVarIsType(actualTemperatureInCelcius, int)
+        checkVarAgainstMultipleTypes(actualTemperatureInCelcius, float, int)
         self.actualTemperatureInCelcius = actualTemperatureInCelcius
-        checkIfVarIsType(feelsLikeTemperatureInCeclius, int)
+        checkVarAgainstMultipleTypes(feelsLikeTemperatureInCeclius, float, int)
         self.feelsLikeTemperatureInCeclius = feelsLikeTemperatureInCeclius
         checkIfVarIsType(humidityPercent, int)
         self.humidityPercent = humidityPercent
-        checkIfVarIsType(windSpeedMph, int)
+        checkVarAgainstMultipleTypes(rainInMmForLast3Hours, float, int)
+        self.rainInMmForLast3Hours = rainInMmForLast3Hours
+        checkVarAgainstMultipleTypes(windSpeedMph, float, int)
         self.windSpeedMph = windSpeedMph
         checkIfVarIsType(windDirectionDegrees, int)
         self.windDirectionDegrees = windDirectionDegrees
@@ -48,11 +49,11 @@ class WeatherInfo:
         self.weatherIconIDCode = weatherIconIDCode
         checkIfVarIsType(weatherIconImage, bytes)
         self.weatherIconImage = weatherIconImage
-        checkIfVarIsType(timezoneDelta, int)
+        # checkIfVarIsType(timezoneDelta, int)
         checkIfVarIsType(timeInfoWasRecorded, int)
-        self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded)
+        self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded) #- timedelta(seconds=timezoneDelta)
 
-        logger.info(f"{self.__class__} instantiated")
+        logger.info(f"{self.__class__}: {self.cityName}, {self.timeInfoWasRecorded} - instantiated")
 
     def getRainSeverity(self):
         # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
