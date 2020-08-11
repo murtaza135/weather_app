@@ -143,7 +143,7 @@ class MainWindow(QtWidgets.QMainWindow):
         layoutRight.addItem(spacer)
 
         self.leftArrowPicture = QtWidgets.QLabel()
-        leftArrowPixmap = QtGui.QPixmap("../images/back.png")
+        leftArrowPixmap = QtGui.QPixmap("../images/left_arrow.png")
         leftArrowPixmap = leftArrowPixmap.scaled(25, 25, QtCore.Qt.KeepAspectRatio)
         self.leftArrowPicture.setPixmap(leftArrowPixmap)
         self.leftArrowPicture.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -155,7 +155,7 @@ class MainWindow(QtWidgets.QMainWindow):
             layoutRight.addWidget(widget)
 
         self.rightArrowPicture = QtWidgets.QLabel()
-        rightArrowPixmap = QtGui.QPixmap("../images/next.png")
+        rightArrowPixmap = QtGui.QPixmap("../images/right_arrow.png")
         rightArrowPixmap = rightArrowPixmap.scaled(25, 25, QtCore.Qt.KeepAspectRatio)
         self.rightArrowPicture.setPixmap(rightArrowPixmap)
         self.rightArrowPicture.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
