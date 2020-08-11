@@ -25,7 +25,7 @@ class WeatherInfoGetter:
 
     @staticmethod
     def parseJsonFromCurrentWeather(dict):
-        return WeatherInfo
+        return WeatherInfo()
 
     @staticmethod
     def get5Day3HourForecastByCityNameFromApi(cityName):

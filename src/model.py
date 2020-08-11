@@ -18,3 +18,9 @@ class Model:
     def __init__(self):
         currentWeatherInfo = None
         next5DaysOfWeatherInfo = list()
+
+    def getCurrentAndNext5DaysWeatherInfoByCityName(self, cityName):
+        pass
+
+    def getCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
+        pass

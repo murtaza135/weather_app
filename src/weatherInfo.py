@@ -55,7 +55,7 @@ class WeatherInfo:
 
     def getWindSpeedSeverity(self):
         # Values adapted from "https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale"
-        
+
         if self.windSpeedMph < 3:
             return WindSpeedSeverity.calm
         elif self.windSpeedMph >= 3 and self.windSpeedMph < 12:
@@ -72,7 +72,22 @@ class WeatherInfo:
             return WindSpeedSeverity.hurricane
 
     def getWindSpeedDirectionInNESW(self):
-        pass
+        if self.windDirectionDegrees < 22.5 or self.windDirectionDegrees >= 337.5:
+            return WindDirection.north
+        elif self.windDirectionDegrees >= 22.5 and self.windDirectionDegrees < 67.5:
+            return WindDirection.northeast
+        elif self.windDirectionDegrees >= 67.5 and self.windDirectionDegrees < 112.5:
+            return WindDirection.east
+        elif self.windDirectionDegrees >= 112.5 and self.windDirectionDegrees < 157.5:
+            return WindDirection.southeast
+        elif self.windDirectionDegrees >= 157.5 and self.windDirectionDegrees < 202.5:
+            return WindDirection.south
+        elif self.windDirectionDegrees >= 202.5 and self.windDirectionDegrees < 247.5:
+            return WindDirection.southwest
+        elif self.windDirectionDegrees >= 247.5 and self.windDirectionDegrees < 292.5:
+            return WindDirection.west
+        else:
+            return WindDirection.northwest
 
 
 class RainSeverity(Enum):
