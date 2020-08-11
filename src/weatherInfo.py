@@ -1,6 +1,7 @@
 import logging
 from enum import Enum
 from validationFunctions import checkIfVarIsType
+from datetime import datetime
 
 
 
@@ -16,26 +17,40 @@ logger.addHandler(file_handler)
 
 class WeatherInfo:
     
-    def __init__(self, cityName, countryName, coords, shortWeatherDescription, longWeatherDescription,
+    def __init__(self, cityName, coords, shortWeatherDescription, longWeatherDescription,
                 actualTemperatureInCelcius, feelsLikeTemperatureInCeclius, humidityPercent,
                 windSpeedMph, windDirectionDegrees, cloudinessPercent, rainInMmForLast3Hours,
-                snowInMmForLast3Hours, weatherIconIDCode, weatherIconImage, timeInfoWasRecorded):
-        self.cityName = checkIfVarIsType(cityName, str)
-        self.countryName = checkIfVarIsType(countryName, str)
-        self.coords = checkIfVarIsType(coords, tuple)
-        self.shortWeatherDescription = checkIfVarIsType(shortWeatherDescription, str)
-        self.longWeatherDescription = checkIfVarIsType(longWeatherDescription, str)
-        self.actualTemperatureInCelcius = checkIfVarIsType(actualTemperatureInCelcius, int)
-        self.feelsLikeTemperatureInCeclius = checkIfVarIsType(feelsLikeTemperatureInCeclius, int)
-        self.humidityPercent = checkIfVarIsType(humidityPercent, int)
-        self.windSpeedMph = checkIfVarIsType(windSpeedMph, int)
-        self.windDirectionDegrees = checkIfVarIsType(windDirectionDegrees, int)
-        self.cloudinessPercent = checkIfVarIsType(cloudinessPercent, int)
-        self.rainInMmForLast3Hours = checkIfVarIsType(rainInMmForLast3Hours, int)
-        self.snowInMmForLast3Hours = checkIfVarIsType(snowInMmForLast3Hours, int)
-        self.weatherIconIDCode = checkIfVarIsType(weatherIconIDCode, str)
+                snowInMmForLast3Hours, weatherIconIDCode, weatherIconImage, timeInfoWasRecorded,
+                countryName=None, timezoneDelta=0):
+        checkIfVarIsType(cityName, str)
+        self.cityName = cityName
+        checkIfVarIsType(countryName, str) if countryName is not None else None
+        self.countryName = countryName
+        checkIfVarIsType(coords, tuple)
+        self.coords = coords
+        checkIfVarIsType(shortWeatherDescription, str)
+        self.shortWeatherDescription = shortWeatherDescription
+        checkIfVarIsType(longWeatherDescription, str)
+        self.longWeatherDescription = longWeatherDescription
+        checkIfVarIsType(actualTemperatureInCelcius, int)
+        self.actualTemperatureInCelcius = actualTemperatureInCelcius
+        checkIfVarIsType(feelsLikeTemperatureInCeclius, int)
+        self.feelsLikeTemperatureInCeclius = feelsLikeTemperatureInCeclius
+        checkIfVarIsType(humidityPercent, int)
+        self.humidityPercent = humidityPercent
+        checkIfVarIsType(windSpeedMph, int)
+        self.windSpeedMph = windSpeedMph
+        checkIfVarIsType(windDirectionDegrees, int)
+        self.windDirectionDegrees = windDirectionDegrees
+        checkIfVarIsType(cloudinessPercent, int)
+        self.cloudinessPercent = cloudinessPercent
+        checkIfVarIsType(weatherIconIDCode, str)
+        self.weatherIconIDCode = weatherIconIDCode
+        checkIfVarIsType(weatherIconImage, bytes)
         self.weatherIconImage = weatherIconImage
-        self.timeInfoWasRecorded = timeInfoWasRecorded
+        checkIfVarIsType(timezoneDelta, int)
+        checkIfVarIsType(timeInfoWasRecorded, int)
+        self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded)
 
         logger.info(f"{self.__class__} instantiated")
 
