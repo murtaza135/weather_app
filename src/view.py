@@ -25,9 +25,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showWidgetsIfInfoAvailableElseHide()
 
     def initMainWindow(self):
-        self.setGeometry(200,200,1400,750)
-        self.setMinimumWidth(250)
-        self.setMinimumHeight(250)
+        self.setGeometry(200,200,1300,750)
+        self.setMinimumWidth(1300)
+        self.setMinimumHeight(750)
         self.setWindowTitle("Weather App")
         self.setWindowIcon(QtGui.QIcon("../images/icon.ico"))
         self.setStyleSheet("background-color: #016bac")
@@ -37,7 +37,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mainLayout.setHorizontalSpacing(7)
         self.mainLayout.setVerticalSpacing(25)
         self.mainLayout.setContentsMargins(25, 18, 25, 18)
-        # self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
+        # self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
+
         self.centralWidget = QtWidgets.QWidget()
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
@@ -173,7 +174,7 @@ class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
         currentWeatherInfo = self.model.currentWeatherInfo
         if currentWeatherInfo is not None:
             self.locationLabel.setText(f"{currentWeatherInfo.cityName} {currentWeatherInfo.coords}")
-            self.timeLabel.setText(f"Today {currentWeatherInfo.getTimeInfoWasRecorded()}")
+            self.timeLabel.setText(f"Updated {currentWeatherInfo.getTimeInfoWasRecorded()}")
             self.actualTemperatureLabel.setText("{:.0f}°C".format(currentWeatherInfo.actualTemperatureInCelcius))
             self.longDescriptionLabel.setText(f"{currentWeatherInfo.longWeatherDescription}")
             self.feelsLikeTemeperatureLabel.setText("Feels Like: {:.0f}°C".format(currentWeatherInfo.feelsLikeTemperatureInCeclius))
@@ -322,4 +323,3 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
             weatherIconPixmax.loadFromData(next5DaysOfWeatherInfo[index].weatherIconImage)
             weatherIconPixmax = weatherIconPixmax.scaled(75, 75, QtCore.Qt.KeepAspectRatio)
             self.weatherIconLabel.setPixmap(weatherIconPixmax)
-        

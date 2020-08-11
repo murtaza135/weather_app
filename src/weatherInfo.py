@@ -59,9 +59,9 @@ class WeatherInfo:
     def getRainSeverity(self):
         # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
 
-        if self.rainInMmForLast3Hours < 0.1 * 3:
-            return "Low"
-        elif self.rainInMmForLast3Hours >= 0.1 * 3 and self.rainInMmForLast3Hours < 0.5 * 3:
+        if self.rainInMmForLast3Hours == 0:
+            return "N/A"
+        elif self.rainInMmForLast3Hours > 0 and self.rainInMmForLast3Hours < 0.5 * 3:
             return "Slight"
         elif self.rainInMmForLast3Hours >= 0.5 * 3 and self.rainInMmForLast3Hours < 4 * 3:
             return "Moderate"
