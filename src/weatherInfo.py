@@ -51,58 +51,60 @@ class WeatherInfo:
         self.weatherIconImage = weatherIconImage
         checkIfVarIsType(timeInfoWasRecorded, int)
         self.timeInfoWasRecorded = datetime.fromtimestamp(timeInfoWasRecorded)
-
         logger.info(f"{self.__class__}: {self.cityName}, {self.timeInfoWasRecorded} - instantiated")
+
+    def getTimeInfoWasRecorded(self):
+        return self.timeInfoWasRecorded.strftime("%H:%M")
 
     def getRainSeverity(self):
         # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
 
-        if self.rainInMmForLast3Hours < 0.1 * 3:
-            return RainSeverity.low
-        elif self.rainInMmForLast3Hours >= 0.1 * 3 and self.rainInMmForLast3Hours < 0.5 * 3:
-            return RainSeverity.slight
+        if self.rainInMmForLast3Hours == 0:
+            return "N/A"
+        elif self.rainInMmForLast3Hours > 0 and self.rainInMmForLast3Hours < 0.5 * 3:
+            return "Slight"
         elif self.rainInMmForLast3Hours >= 0.5 * 3 and self.rainInMmForLast3Hours < 4 * 3:
-            return RainSeverity.moderate
+            return "Moderate"
         elif self.rainInMmForLast3Hours >= 4 * 3 and self.rainInMmForLast3Hours < 8 * 3:
-            return RainSeverity.heavy
+            return "Heavy"
         else:
-            return RainSeverity.veryHeavy
+            return "Very Heavy"
 
     def getWindSpeedSeverity(self):
         # Values adapted from "https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale"
 
         if self.windSpeedMph < 3:
-            return WindSpeedSeverity.calm
+            return "Calm"
         elif self.windSpeedMph >= 3 and self.windSpeedMph < 12:
-            return WindSpeedSeverity.gentle
+            return "Gentle"
         elif self.windSpeedMph >= 12 and self.windSpeedMph < 24:
-            return WindSpeedSeverity.moderate
+            return "Moderate"
         elif self.windSpeedMph >= 24 and self.windSpeedMph < 38:
-            return WindSpeedSeverity.strong
+            return "Strong"
         elif self.windSpeedMph >= 38 and self.windSpeedMph < 54:
-            return WindSpeedSeverity.gale
+            return "Gale"
         elif self.windSpeedMph >= 54 and self.windSpeedMph < 72:
-            return WindSpeedSeverity.violentGale
+            return "Violent Gale"
         else:
-            return WindSpeedSeverity.hurricane
+            return "Hurricane"
 
     def getWindSpeedDirectionInNESW(self):
         if self.windDirectionDegrees < 22.5 or self.windDirectionDegrees >= 337.5:
-            return WindDirection.north
+            return "North"
         elif self.windDirectionDegrees >= 22.5 and self.windDirectionDegrees < 67.5:
-            return WindDirection.northeast
+            return "Northeast"
         elif self.windDirectionDegrees >= 67.5 and self.windDirectionDegrees < 112.5:
-            return WindDirection.east
+            return "East"
         elif self.windDirectionDegrees >= 112.5 and self.windDirectionDegrees < 157.5:
-            return WindDirection.southeast
+            return "Southeast"
         elif self.windDirectionDegrees >= 157.5 and self.windDirectionDegrees < 202.5:
-            return WindDirection.south
+            return "South"
         elif self.windDirectionDegrees >= 202.5 and self.windDirectionDegrees < 247.5:
-            return WindDirection.southwest
+            return "Southwest"
         elif self.windDirectionDegrees >= 247.5 and self.windDirectionDegrees < 292.5:
-            return WindDirection.west
+            return "West"
         else:
-            return WindDirection.northwest
+            return "Northwest"
 
 
 class RainSeverity(Enum):
