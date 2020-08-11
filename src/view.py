@@ -1,5 +1,18 @@
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import Qt
+import logging
+
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+file_handler = logging.FileHandler("../logs/view.log")
+file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
+file_handler.setLevel(logging.DEBUG)
+logger.addHandler(file_handler)
+
+
 
 class MainWindow(QtWidgets.QMainWindow):
     
