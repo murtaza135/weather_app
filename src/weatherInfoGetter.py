@@ -26,7 +26,7 @@ class WeatherInfoGetter:
         payload = {"q": cityName, "units": "metric", "appid": cls.API_KEY}
         url = "https://api.openweathermap.org/data/2.5/weather"
         request = requests.get(url, params=payload)
-        if request.status_code != 200:
+        if request.status_code != 200 or request.json()["cod"] != 200:
             logger.error(f"Could not connect to {url}")
             raise ConnectionError(f"Could not connect to {url}")
         logger.info(f"Successfully connected to {url}")
@@ -37,7 +37,7 @@ class WeatherInfoGetter:
         payload = {"lat": latitude, "lon": longitude, "units": "metric", "appid": cls.API_KEY}
         url = "https://api.openweathermap.org/data/2.5/weather"
         request = requests.get(url, params=payload)
-        if request.status_code != 200:
+        if request.status_code != 200 or request.json()["cod"] != 200:
             logger.error(f"Could not connect to {url}")
             raise ConnectionError(f"Could not connect to {url}")
         logger.info(f"Successfully connected to {url}")
@@ -71,7 +71,7 @@ class WeatherInfoGetter:
         payload = {"q": cityName, "units": "metric", "appid": cls.API_KEY}
         url = "https://api.openweathermap.org/data/2.5/forecast"
         request = requests.get(url, params=payload)
-        if request.status_code != 200:
+        if request.status_code != 200 or request.json()["cod"] != 200:
             logger.error(f"Could not connect to {url}")
             raise ConnectionError(f"Could not connect to {url}")
         logger.info(f"Successfully connected to {url}")
@@ -82,7 +82,7 @@ class WeatherInfoGetter:
         payload = {"lat": latitude, "lon": longitude, "units": "metric", "appid": cls.API_KEY}
         url = "https://api.openweathermap.org/data/2.5/forecast"
         request = requests.get(url, params=payload)
-        if request.status_code != 200:
+        if request.status_code != 200 or request.json()["cod"] != 200:
             logger.error(f"Could not connect to {url}")
             raise ConnectionError(f"Could not connect to {url}")
         logger.info(f"Successfully connected to {url}")
