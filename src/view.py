@@ -21,11 +21,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model = model
         self.initMainWindow()
         self.initUI()
-        self.model.getCurrentAndNext5DaysWeatherInfoByCityName("London")
+        self.model.getCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
         self.showWidgetsIfInfoAvailableElseHide()
 
     def initMainWindow(self):
-        self.setGeometry(200,200,1250,750)
+        self.setGeometry(200,200,1400,750)
         self.setMinimumWidth(250)
         self.setMinimumHeight(250)
         self.setWindowTitle("Weather App")
@@ -37,6 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mainLayout.setHorizontalSpacing(7)
         self.mainLayout.setVerticalSpacing(25)
         self.mainLayout.setContentsMargins(25, 18, 25, 18)
+        # self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.centralWidget = QtWidgets.QWidget()
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
@@ -79,7 +80,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.next5DaysWeatherInfo.hide()
 
 
-class CurrentWeatherInfoDisplay(QtWidgets.QFrame):
+class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
     
     def __init__(self, model, parent=None):
         super().__init__(parent)
@@ -87,6 +88,8 @@ class CurrentWeatherInfoDisplay(QtWidgets.QFrame):
         self.initUI()
 
     def initUI(self):
+        # self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+
         self.mainLayout = QtWidgets.QVBoxLayout(self)
         self.mainLayout.setSpacing(0)
 
@@ -171,9 +174,9 @@ class CurrentWeatherInfoDisplay(QtWidgets.QFrame):
         if currentWeatherInfo is not None:
             self.locationLabel.setText(f"{currentWeatherInfo.cityName} {currentWeatherInfo.coords}")
             self.timeLabel.setText(f"Today {currentWeatherInfo.getTimeInfoWasRecorded()}")
-            self.actualTemperatureLabel.setText(f"{currentWeatherInfo.actualTemperatureInCelcius}°C")
+            self.actualTemperatureLabel.setText("{:.0f}°C".format(currentWeatherInfo.actualTemperatureInCelcius))
             self.longDescriptionLabel.setText(f"{currentWeatherInfo.longWeatherDescription}")
-            self.feelsLikeTemeperatureLabel.setText(f"Feels Like: {currentWeatherInfo.feelsLikeTemperatureInCeclius}°C")
+            self.feelsLikeTemeperatureLabel.setText("Feels Like: {:.0f}°C".format(currentWeatherInfo.feelsLikeTemperatureInCeclius))
             self.humidityPercentLabel.setText(f"Humidity: {currentWeatherInfo.humidityPercent}%")
             self.windSpeedMphLabel.setText(f"Wind: {currentWeatherInfo.windSpeedMph}mph {currentWeatherInfo.getWindSpeedDirectionInNESW()} ({currentWeatherInfo.getWindSpeedSeverity()})")
             self.cloudinessPercentLabel.setText(f"Cloudiness: {currentWeatherInfo.cloudinessPercent}%")
@@ -185,7 +188,7 @@ class CurrentWeatherInfoDisplay(QtWidgets.QFrame):
             self.weatherPicture.setPixmap(weatherPixmap)
 
 
-class Next5DaysWeatherInfoDisplay(QtWidgets.QFrame):
+class Next5DaysWeatherInfoDisplay(QtWidgets.QWidget):
 
     NUM_WEATHER_INFO_TO_DISPLAY = 8
     
@@ -196,6 +199,8 @@ class Next5DaysWeatherInfoDisplay(QtWidgets.QFrame):
 
 
     def initUI(self):
+        # self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+
         self.mainLayout = QtWidgets.QHBoxLayout(self)
         self.mainLayout.setSpacing(0)
 
@@ -276,7 +281,7 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         rainLayout.addWidget(self.rainIconLabel)
 
         self.rainLabel = QtWidgets.QLabel()
-        self.rainLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 7px")
+        self.rainLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 13px")
         self.rainLabel.setWordWrap(True)
         self.rainLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         rainLayout.addWidget(self.rainLabel)
@@ -294,7 +299,7 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         windSpeedLayout.addWidget(self.windSpeedIconLabel)
 
         self.windSpeedLabel = QtWidgets.QLabel()
-        self.windSpeedLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 6px")
+        self.windSpeedLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 10px")
         self.windSpeedLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         windSpeedLayout.addWidget(self.windSpeedLabel)
 
@@ -308,7 +313,7 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         next5DaysOfWeatherInfo = self.model.next5DaysOfWeatherInfo
         if type(next5DaysOfWeatherInfo) == list and len(next5DaysOfWeatherInfo) > 0:
             self.timeLabel.setText(f"{next5DaysOfWeatherInfo[index].getTimeInfoWasRecorded()}")
-            self.temperatureLabel.setText(f"{next5DaysOfWeatherInfo[index].actualTemperatureInCelcius}°C")
+            self.temperatureLabel.setText("{:.0f}°C".format(next5DaysOfWeatherInfo[index].actualTemperatureInCelcius))
             self.cloudinessLabel.setText(f"{next5DaysOfWeatherInfo[index].cloudinessPercent}%")
             self.rainLabel.setText(f"{next5DaysOfWeatherInfo[index].getRainSeverity()}")
             self.windSpeedLabel.setText(f"{next5DaysOfWeatherInfo[index].getWindSpeedSeverity()}")
