@@ -29,9 +29,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.threadpool = QtCore.QThreadPool()
 
     def initMainWindow(self):
-        self.setGeometry(200,200,1300,750)
-        self.setMinimumWidth(1300)
-        self.setMinimumHeight(750)
+        self.setGeometry(200,100,1400,800)
+        self.setMinimumWidth(800)
+        self.setMinimumHeight(600)
         self.setWindowTitle("Weather App")
         self.setWindowIcon(QtGui.QIcon("../images/icon.ico"))
         self.setStyleSheet("background-color: #016bac")
@@ -41,16 +41,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.mainLayout.setHorizontalSpacing(7)
         self.mainLayout.setVerticalSpacing(25)
         self.mainLayout.setContentsMargins(25, 18, 25, 18)
-        # self.mainLayout.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
 
-        self.centralWidget = QtWidgets.QWidget()
-        self.centralWidget.setLayout(self.mainLayout)
-        self.setCentralWidget(self.centralWidget)
+        self.mainWidget = QtWidgets.QWidget()
+        self.mainWidget.setLayout(self.mainLayout)
+
+        self.scroller = QtWidgets.QScrollArea()
+        self.scroller.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroller.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroller.setWidgetResizable(True)
+        self.scroller.setWidget(self.mainWidget)
+        self.setCentralWidget(self.scroller)
 
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
+        self.searchBox.setPlaceholderText("Enter City Name")
         self.searchBox.returnPressed.connect(self.getWeatherInfoAndDisplay)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
+        self.searchBox.setFocus()
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
         self.searchButton.setStyleSheet("background-color: #004c82;" "color: white;" "font-size: 24px;")
@@ -120,8 +127,6 @@ class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
         self.initUI()
 
     def initUI(self):
-        # self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-
         self.mainLayout = QtWidgets.QVBoxLayout(self)
         self.mainLayout.setSpacing(0)
 
@@ -231,8 +236,6 @@ class Next5DaysWeatherInfoDisplay(QtWidgets.QWidget):
 
 
     def initUI(self):
-        # self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-
         self.mainLayout = QtWidgets.QHBoxLayout(self)
         self.mainLayout.setSpacing(0)
 
