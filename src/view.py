@@ -1,5 +1,6 @@
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import Qt
+from worker import Worker
 import logging
 import json
 
@@ -24,7 +25,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model = model
         self.initMainWindow()
         self.initUI()
-        self.model.getCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
+        # self.model.getCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
         self.showWidgetsIfInfoAvailableElseHide()
 
     def initMainWindow(self):
@@ -46,18 +47,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
 
-        self.city_names = self.get_city_names_from_json()
-        self.city_names_completer = QtWidgets.QCompleter(self.city_names)
-        self.city_names_completer.setCaseSensitivity(Qt.CaseInsensitive)
+        # self.cityNames = self.getCityNamesFromJson()
+        # self.cityNamesCompleter = QtWidgets.QCompleter(self.cityNames)
+        # self.cityNamesCompleter.setCaseSensitivity(Qt.CaseInsensitive)
 
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
-        self.searchBox.setCompleter(self.city_names_completer)
+        # self.searchBox.setCompleter(self.cityNamesCompleter)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
         self.searchButton.setStyleSheet("background-color: #004c82;" "color: white;" "font-size: 24px;")
         self.searchButton.setMaximumHeight(33)
+        self.searchButton.clicked.connect(self.getWeatherInfoAndDisplay)
         self.mainLayout.addWidget(self.searchButton, 0, 4, 1, 1)
         
         self.currentWeatherInfo = CurrentWeatherInfoDisplay(self.model)
@@ -68,6 +70,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addItem(spacer, 2, 0)
+
+    def getWeatherInfoAndDisplay(self):
+        cityName = self.searchBox.text().strip()
+        if cityName != "":
+            worker = Worker(self.model.getCurrentAndNext5DaysWeatherInfoByCityName, cityName)
+            worker.signals.error.connect(self.showErrorMessageBox)
+            worker.signals.finished.connect(self.showWidgetsIfInfoAvailableElseHide)
+
+            threadpool = QtCore.QThreadPool()
+            threadpool.start(worker)
 
     def showWidgetsIfInfoAvailableElseHide(self):
         if self.model.currentWeatherInfo is not None:
@@ -88,10 +100,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.currentWeatherInfo.hide()
         self.next5DaysWeatherInfo.hide()
 
-    def get_city_names_from_json(self):
+    def showErrorMessageBox(self, errorInfo):
+        QtWidgets.QMessageBox.warning(self, "Warning", "Could not retrieve weather information")
+        print(errorInfo[2])
+
+    def getCityNamesFromJson(self):
         with open(type(self).CITY_NAMES_JSON_FILE, "r", encoding="utf-8") as f:
-            city_names = json.load(f)
-        return city_names
+            cityNames = json.load(f)
+        return cityNames
 
 class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
     

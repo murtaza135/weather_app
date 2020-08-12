@@ -28,7 +28,8 @@ class Model:
         except (ConnectionError, TypeError, KeyError) as e:
             self.currentWeatherInfo = None
             self.next5DaysOfWeatherInfo = list()
-            logger.error(e)
+            logger.warning(e)
+            raise
 
     def getCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
         try:
@@ -39,4 +40,5 @@ class Model:
         except (ConnectionError, TypeError, KeyError) as e:
             self.currentWeatherInfo = None
             self.next5DaysOfWeatherInfo = list()
-            logger.error(e)
+            logger.warning(e)
+            raise
