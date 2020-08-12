@@ -50,10 +50,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scroller.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.scroller.setWidgetResizable(True)
         self.scroller.setWidget(self.mainWidget)
+        self.scroller.horizontalScrollBar().setStyleSheet("background-color: none;")
+        self.scroller.verticalScrollBar().setStyleSheet("background-color: none;")
         self.setCentralWidget(self.scroller)
 
         self.searchBox = QtWidgets.QLineEdit()
-        self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
+        self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px;")
         self.searchBox.setPlaceholderText("Enter City Name")
         self.searchBox.returnPressed.connect(self.getWeatherInfoAndDisplay)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
@@ -112,12 +114,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.next5DaysWeatherInfo.hide()
 
     def showErrorMessageBox(self, errorInfo):
-        QtWidgets.QMessageBox.warning(self, "Warning", "Could not retrieve weather information")
+        errorMessageBox = QtWidgets.QMessageBox()
+        errorMessageBox.setWindowTitle("Error")
+        errorMessageBox.setWindowIcon(QtGui.QIcon("../images/icon.ico"))
+        errorMessageBox.setText("Could not retrieve weather information")
+        errorMessageBox.setIcon(QtWidgets.QMessageBox.Warning)
+        errorMessageBox.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        errorMessageBox.setDefaultButton(QtWidgets.QMessageBox.Ok)
+        errorMessageBox.setStyleSheet("background-color: none;")
+        errorMessageBox.exec_()
 
     def getCityNamesFromJson(self):
         with open(type(self).CITY_NAMES_JSON_FILE, "r", encoding="utf-8") as f:
             cityNames = json.load(f)
         return cityNames
+
+    def wheelEvent(self, event):
+        if event.delta() < 0:
+            self.scroller.horizontalScrollBar().triggerAction(QtWidgets.QAbstractSlider.SliderSingleStepAdd)
+        elif event.delta() > 0:
+            self.scroller.horizontalScrollBar().triggerAction(QtWidgets.QAbstractSlider.SliderSingleStepSub)
+
 
 class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
     
@@ -136,11 +153,11 @@ class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
         self.mainLayout.addLayout(locationTimeLayout)
 
         self.locationLabel = QtWidgets.QLabel()
-        self.locationLabel.setStyleSheet("color: white;" "font-size: 32px;" "padding-left: 0px")
+        self.locationLabel.setStyleSheet("color: white;" "font-size: 32px;" "padding-left: 0px;")
         locationTimeLayout.addWidget(self.locationLabel)
 
         self.timeLabel = QtWidgets.QLabel()
-        self.timeLabel.setStyleSheet("color: white; font-size: 16px; padding-left: 0px")
+        self.timeLabel.setStyleSheet("color: white; font-size: 16px; padding-left: 0px;")
         locationTimeLayout.addWidget(self.timeLabel)
 
         spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
@@ -157,11 +174,11 @@ class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
         pictureTempDescriptionLayout.addWidget(self.weatherPicture, 0, 0)
 
         self.actualTemperatureLabel = QtWidgets.QLabel()
-        self.actualTemperatureLabel.setStyleSheet("color: white; font-size: 40px; padding-left: 5px")
+        self.actualTemperatureLabel.setStyleSheet("color: white; font-size: 40px; padding-left: 5px;")
         pictureTempDescriptionLayout.addWidget(self.actualTemperatureLabel, 0, 1)
 
         self.longDescriptionLabel = QtWidgets.QLabel()
-        self.longDescriptionLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.longDescriptionLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         self.longDescriptionLabel.setWordWrap(True)
         pictureTempDescriptionLayout.addWidget(self.longDescriptionLabel, 1, 0, 1, 2)
 
@@ -183,23 +200,23 @@ class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
         self.mainLayout.addLayout(remainingWeatherInfoLayout)
 
         self.feelsLikeTemeperatureLabel = QtWidgets.QLabel()
-        self.feelsLikeTemeperatureLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.feelsLikeTemeperatureLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         remainingWeatherInfoLayout.addWidget(self.feelsLikeTemeperatureLabel)
 
         self.humidityPercentLabel = QtWidgets.QLabel()
-        self.humidityPercentLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.humidityPercentLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         remainingWeatherInfoLayout.addWidget(self.humidityPercentLabel)
 
         self.windSpeedMphLabel = QtWidgets.QLabel()
-        self.windSpeedMphLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.windSpeedMphLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         remainingWeatherInfoLayout.addWidget(self.windSpeedMphLabel)
 
         self.cloudinessPercentLabel = QtWidgets.QLabel()
-        self.cloudinessPercentLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.cloudinessPercentLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         remainingWeatherInfoLayout.addWidget(self.cloudinessPercentLabel)
 
         self.rainInMmForLast3HoursLabel = QtWidgets.QLabel()
-        self.rainInMmForLast3HoursLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.rainInMmForLast3HoursLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         remainingWeatherInfoLayout.addWidget(self.rainInMmForLast3HoursLabel)
 
 
@@ -272,17 +289,17 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         self.mainLayout.addWidget(line, 0, 0, 6, 1)
 
         self.timeLabel = QtWidgets.QLabel()
-        self.timeLabel.setStyleSheet("color: white; font-size: 22px; padding-left: 7px; font-weight: bold")
+        self.timeLabel.setStyleSheet("color: white; font-size: 22px; padding-left: 7px; font-weight: bold;")
         self.timeLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addWidget(self.timeLabel, 0, 1)
 
         self.weatherIconLabel = QtWidgets.QLabel()
-        self.weatherIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px")
+        self.weatherIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 0px;")
         self.weatherIconLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addWidget(self.weatherIconLabel, 1, 1)
 
         self.temperatureLabel = QtWidgets.QLabel()
-        self.temperatureLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 12px")
+        self.temperatureLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 12px;")
         self.temperatureLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addWidget(self.temperatureLabel, 2, 1)
 
@@ -294,12 +311,12 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         cloudinessIconPixmap = QtGui.QPixmap("../images/cloudiness.png")
         cloudinessIconPixmap = cloudinessIconPixmap.scaled(50, 50, QtCore.Qt.KeepAspectRatio)
         self.cloudinessIconLabel.setPixmap(cloudinessIconPixmap)
-        self.cloudinessIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 12px")
+        self.cloudinessIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 12px;")
         self.cloudinessIconLabel.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         cloudinessLayout.addWidget(self.cloudinessIconLabel)
 
         self.cloudinessLabel = QtWidgets.QLabel()
-        self.cloudinessLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 14px")
+        self.cloudinessLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 14px;")
         self.cloudinessLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         cloudinessLayout.addWidget(self.cloudinessLabel)
 
@@ -311,12 +328,12 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         rainIconPixmap = QtGui.QPixmap("../images/rain.png")
         rainIconPixmap = rainIconPixmap.scaled(60, 60, QtCore.Qt.KeepAspectRatio)
         self.rainIconLabel.setPixmap(rainIconPixmap)
-        self.rainIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 9px")
+        self.rainIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 9px;")
         self.rainIconLabel.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         rainLayout.addWidget(self.rainIconLabel)
 
         self.rainLabel = QtWidgets.QLabel()
-        self.rainLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 13px")
+        self.rainLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 13px;")
         self.rainLabel.setWordWrap(True)
         self.rainLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         rainLayout.addWidget(self.rainLabel)
@@ -329,12 +346,12 @@ class SpecifiedHourWeatherInfo(QtWidgets.QFrame):
         windSpeedIconPixmap = QtGui.QPixmap("../images/wind.png")
         windSpeedIconPixmap = windSpeedIconPixmap.scaled(35, 35, QtCore.Qt.KeepAspectRatio)
         self.windSpeedIconLabel.setPixmap(windSpeedIconPixmap)
-        self.windSpeedIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 24px")
+        self.windSpeedIconLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 24px;")
         self.windSpeedIconLabel.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         windSpeedLayout.addWidget(self.windSpeedIconLabel)
 
         self.windSpeedLabel = QtWidgets.QLabel()
-        self.windSpeedLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 10px")
+        self.windSpeedLabel.setStyleSheet("color: white; font-size: 20px; padding-left: 10px;")
         self.windSpeedLabel.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         windSpeedLayout.addWidget(self.windSpeedLabel)
 
