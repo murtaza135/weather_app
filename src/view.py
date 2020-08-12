@@ -1,6 +1,7 @@
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import Qt
 import logging
+import json
 
 
 
@@ -15,6 +16,8 @@ logger.addHandler(file_handler)
 
 
 class MainWindow(QtWidgets.QMainWindow):
+
+    CITY_NAMES_JSON_FILE = "../config/city_names.json"
     
     def __init__(self, model, parent=None):
         super().__init__(parent)
@@ -43,8 +46,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
 
+        self.city_names = self.get_city_names_from_json()
+        self.city_names_completer = QtWidgets.QCompleter(self.city_names)
+        self.city_names_completer.setCaseSensitivity(Qt.CaseInsensitive)
+
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
+        self.searchBox.setCompleter(self.city_names_completer)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
@@ -80,6 +88,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.currentWeatherInfo.hide()
         self.next5DaysWeatherInfo.hide()
 
+    def get_city_names_from_json(self):
+        with open(type(self).CITY_NAMES_JSON_FILE, "r", encoding="utf-8") as f:
+            city_names = json.load(f)
+        return city_names
 
 class CurrentWeatherInfoDisplay(QtWidgets.QWidget):
     
