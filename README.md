@@ -19,6 +19,6 @@ A simple weather app that displays weather information for the next 24 hours for
     cd src
     python main.py
   
-  
+
 Weather information provided by OpenWeatherMap through their [api](https://openweathermap.org/api)  
 [Wind Icon](https://www.flaticon.com/free-icon/wind_959711) made by [Vitaly Gorbachev](https://www.flaticon.com/authors/vitaly-gorbachev) from [www.flaticon.com](https://www.flaticon.com/)
