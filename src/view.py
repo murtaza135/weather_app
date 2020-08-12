@@ -55,6 +55,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
         # self.searchBox.setCompleter(self.cityNamesCompleter)
+        self.searchBox.returnPressed.connect(self.getWeatherInfoAndDisplay)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
         self.searchButton = QtWidgets.QPushButton(text="Search")
@@ -76,13 +77,21 @@ class MainWindow(QtWidgets.QMainWindow):
         cityName = self.searchBox.text().strip()
         if cityName != "":
             worker = Worker(self.model.obtainCurrentAndNext5DaysWeatherInfoByCityName, cityName)
-            worker.signals.started.connect(lambda: self.searchButton.setEnabled(False))
+            worker.signals.started.connect(self.disableSearchAbility)
             worker.signals.error.connect(self.showErrorMessageBox)
             worker.signals.finished.connect(self.showWidgetsIfInfoAvailableElseHide)
             self.threadpool.start(worker)
 
-    def showWidgetsIfInfoAvailableElseHide(self):
+    def disableSearchAbility(self):
+        self.searchBox.blockSignals(True)
+        self.searchButton.setEnabled(False)
+
+    def enableSearchAbility(self):
+        self.searchBox.blockSignals(False)
         self.searchButton.setEnabled(True)
+
+    def showWidgetsIfInfoAvailableElseHide(self):
+        self.enableSearchAbility()
         if self.model.currentWeatherInfo is not None:
             self.updateTextAndImagesOnAllWidgets()
             self.showAllWidgets()

@@ -31,6 +31,9 @@ class Model:
             self.currentWeatherInfo = WeatherInfoGetter.parseJsonFromCurrentWeather(currentWeather)
             next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi(cityName)
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
+
+            import time
+            time.sleep(5)
             logger.info("Retrieved weather information from api")
         except (ConnectionError, TypeError, KeyError) as e:
             self.currentWeatherInfo = None
