@@ -1,6 +1,7 @@
 # Weather App
 
 A simple weather app that displays weather information for the next 24 hours for over 230,000 cities using the OpenWeatherMap api
+  
 
 ### Setup:  
     You must create an account and get your own api key from OpenWeatherMap (https://openweathermap.org/api)
@@ -17,6 +18,7 @@ A simple weather app that displays weather information for the next 24 hours for
 
     cd src
     python main.py
-
+  
+  
 Weather information provided by OpenWeatherMap through their [api](https://openweathermap.org/api)  
 [Wind Icon](https://www.flaticon.com/free-icon/wind_959711) made by [Vitaly Gorbachev](https://www.flaticon.com/authors/vitaly-gorbachev) from [www.flaticon.com](https://www.flaticon.com/)
