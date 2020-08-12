@@ -25,7 +25,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model = model
         self.initMainWindow()
         self.initUI()
-        # self.model.obtainCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
         self.showWidgetsIfInfoAvailableElseHide()
         self.threadpool = QtCore.QThreadPool()
 
@@ -48,13 +47,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.centralWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.centralWidget)
 
-        # self.cityNames = self.getCityNamesFromJson()
-        # self.cityNamesCompleter = QtWidgets.QCompleter(self.cityNames)
-        # self.cityNamesCompleter.setCaseSensitivity(Qt.CaseInsensitive)
-
         self.searchBox = QtWidgets.QLineEdit()
         self.searchBox.setStyleSheet("color: white;" "font-size: 24px;" "padding-left: 5px")
-        # self.searchBox.setCompleter(self.cityNamesCompleter)
         self.searchBox.returnPressed.connect(self.getWeatherInfoAndDisplay)
         self.mainLayout.addWidget(self.searchBox, 0, 0, 1, 4)
 
