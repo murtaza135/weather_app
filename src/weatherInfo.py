@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler("../logs/weather_info.log")
-file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
+file_handler.setFormatter(logging.Formatter("%(asctime)s:%(filename)s:%(lineno)d:%(levelname)s: %(message)s", "%H:%M:%S"))
 file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
 

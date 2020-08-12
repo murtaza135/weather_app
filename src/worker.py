@@ -23,6 +23,7 @@ class WorkerSignals(QtCore.QObject):
         `int` indicating % progress 
 
     '''
+    started = QtCore.Signal()
     finished = QtCore.Signal()
     error = QtCore.Signal(tuple)
     result = QtCore.Signal(object)
@@ -44,6 +45,7 @@ class Worker(QtCore.QRunnable):
     @QtCore.Slot()
     def run(self):
         try:
+            self.signals.started.emit()
             result = self.function(*self.args, **self.kwargs)
         except:
             exctype, value = sys.exc_info()[:2]

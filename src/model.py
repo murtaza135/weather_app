@@ -7,9 +7,14 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler("../logs/model.log")
-file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
+file_handler.setFormatter(logging.Formatter("%(asctime)s:%(filename)s:%(lineno)d:%(levelname)s: %(message)s", "%H:%M:%S"))
 file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
+
+file_handler_debug = logging.FileHandler("../logs/model_debug.log")
+file_handler_debug.setFormatter(logging.Formatter("%(asctime)s:%(filename)s:%(lineno)d:%(levelname)s: %(message)s", "%H:%M:%S"))
+file_handler_debug.setLevel(logging.DEBUG)
+logger.addHandler(file_handler_debug)
 
 
 
@@ -19,24 +24,28 @@ class Model:
         self.currentWeatherInfo = None
         self.next5DaysOfWeatherInfo = list()
 
-    def getCurrentAndNext5DaysWeatherInfoByCityName(self, cityName):
+    def obtainCurrentAndNext5DaysWeatherInfoByCityName(self, cityName):
         try:
+            logger.info("Retrieving weather information from api")
             currentWeather = WeatherInfoGetter.getCurrentWeatherByCityNameFromApi(cityName)
             self.currentWeatherInfo = WeatherInfoGetter.parseJsonFromCurrentWeather(currentWeather)
             next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCityNameFromApi(cityName)
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
+            logger.info("Retrieved weather information from api")
         except (ConnectionError, TypeError, KeyError) as e:
             self.currentWeatherInfo = None
             self.next5DaysOfWeatherInfo = list()
             logger.warning(e)
             raise
 
-    def getCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
+    def obtainCurrentAndNext5DaysWeatherInfoByCoords(self, latitude, longitude):
         try:
+            logger.info("Retrieving weather information from api")
             currentWeather = WeatherInfoGetter.getCurrentWeatherByCoordsFromApi(latitude, longitude)
             self.currentWeatherInfo = WeatherInfoGetter.parseJsonFromCurrentWeather(currentWeather)
             next5DaysWeather = WeatherInfoGetter.get5Day3HourForecastByCoordsFromApi(latitude, longitude)
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
+            logger.info("Retrieved weather information from api")
         except (ConnectionError, TypeError, KeyError) as e:
             self.currentWeatherInfo = None
             self.next5DaysOfWeatherInfo = list()

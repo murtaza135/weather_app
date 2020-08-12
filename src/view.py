@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 file_handler = logging.FileHandler("../logs/view.log")
-file_handler.setFormatter(logging.Formatter("%(filename)s:%(lineno)d:%(levelname)s: %(message)s"))
+file_handler.setFormatter(logging.Formatter("%(asctime)s:%(filename)s:%(lineno)d:%(levelname)s: %(message)s", "%H:%M:%S"))
 file_handler.setLevel(logging.WARNING)
 logger.addHandler(file_handler)
 
@@ -25,8 +25,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model = model
         self.initMainWindow()
         self.initUI()
-        # self.model.getCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
+        # self.model.obtainCurrentAndNext5DaysWeatherInfoByCityName("Edinburgh")
         self.showWidgetsIfInfoAvailableElseHide()
+        self.threadpool = QtCore.QThreadPool()
 
     def initMainWindow(self):
         self.setGeometry(200,200,1300,750)
@@ -74,14 +75,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def getWeatherInfoAndDisplay(self):
         cityName = self.searchBox.text().strip()
         if cityName != "":
-            worker = Worker(self.model.getCurrentAndNext5DaysWeatherInfoByCityName, cityName)
+            worker = Worker(self.model.obtainCurrentAndNext5DaysWeatherInfoByCityName, cityName)
+            worker.signals.started.connect(lambda: self.searchButton.setEnabled(False))
             worker.signals.error.connect(self.showErrorMessageBox)
             worker.signals.finished.connect(self.showWidgetsIfInfoAvailableElseHide)
-
-            threadpool = QtCore.QThreadPool()
-            threadpool.start(worker)
+            self.threadpool.start(worker)
 
     def showWidgetsIfInfoAvailableElseHide(self):
+        self.searchButton.setEnabled(True)
         if self.model.currentWeatherInfo is not None:
             self.updateTextAndImagesOnAllWidgets()
             self.showAllWidgets()
@@ -102,7 +103,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def showErrorMessageBox(self, errorInfo):
         QtWidgets.QMessageBox.warning(self, "Warning", "Could not retrieve weather information")
-        print(errorInfo[2])
 
     def getCityNamesFromJson(self):
         with open(type(self).CITY_NAMES_JSON_FILE, "r", encoding="utf-8") as f:
