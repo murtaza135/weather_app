@@ -19,6 +19,7 @@ logger.addHandler(file_handler)
 class MainWindow(QtWidgets.QMainWindow):
 
     CITY_NAMES_JSON_FILE = "../config/city_names.json"
+    ICON_FILE = "../images/icon.ico"
     
     def __init__(self, model, parent=None):
         super().__init__(parent)
@@ -33,7 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setMinimumWidth(800)
         self.setMinimumHeight(600)
         self.setWindowTitle("Weather App")
-        self.setWindowIcon(QtGui.QIcon("../images/icon.ico"))
+        self.setWindowIcon(QtGui.QIcon(type(self).ICON_FILE))
         self.setStyleSheet("background-color: #016bac")
 
     def initUI(self):
@@ -84,6 +85,9 @@ class MainWindow(QtWidgets.QMainWindow):
             worker.signals.error.connect(self.showErrorMessageBox)
             worker.signals.finished.connect(self.showWidgetsIfInfoAvailableElseHide)
             self.threadpool.start(worker)
+        else:
+            self.model.clear()
+            self.showWidgetsIfInfoAvailableElseHide()
 
     def disableSearchAbility(self):
         self.searchBox.blockSignals(True)
@@ -116,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def showErrorMessageBox(self, errorInfo):
         errorMessageBox = QtWidgets.QMessageBox()
         errorMessageBox.setWindowTitle("Error")
-        errorMessageBox.setWindowIcon(QtGui.QIcon("../images/icon.ico"))
+        errorMessageBox.setWindowIcon(QtGui.QIcon(type(self).ICON_FILE))
         errorMessageBox.setText("Could not retrieve weather information")
         errorMessageBox.setIcon(QtWidgets.QMessageBox.Warning)
         errorMessageBox.setStandardButtons(QtWidgets.QMessageBox.Ok)

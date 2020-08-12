@@ -33,8 +33,6 @@ class Model:
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
             logger.info("Retrieved weather information from api")
         except (ConnectionError, TypeError, KeyError) as e:
-            self.currentWeatherInfo = None
-            self.next5DaysOfWeatherInfo = list()
             logger.warning(e)
             raise
 
@@ -47,7 +45,9 @@ class Model:
             self.next5DaysOfWeatherInfo = WeatherInfoGetter.parseJsonFrom5Day3HourForecast(next5DaysWeather)
             logger.info("Retrieved weather information from api")
         except (ConnectionError, TypeError, KeyError) as e:
-            self.currentWeatherInfo = None
-            self.next5DaysOfWeatherInfo = list()
             logger.warning(e)
             raise
+
+    def clear(self):
+        self.currentWeatherInfo = None
+        self.next5DaysOfWeatherInfo = list()

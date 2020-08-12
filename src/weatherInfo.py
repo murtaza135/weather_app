@@ -105,36 +105,3 @@ class WeatherInfo:
             return "West"
         else:
             return "Northwest"
-
-
-class RainSeverity(Enum):
-    # Values adapted from "https://water.usgs.gov/edu/activity-howmuchrain-metric.html"
-
-    low = 1  # 0-0.1 mm/hr
-    slight = 2  # 0.1-0.5 mm/hr
-    moderate = 3  # 0.5-4 mm/hr
-    heavy = 4  # 4-8 mm/hr
-    veryHeavy = 5  # 8+ mm/hr
-
-
-class WindSpeedSeverity(Enum):
-    # Values adapted from "https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale"
-
-    calm = 1  # 0-3 mph
-    gentle = 2  # 4-12 mph
-    moderate = 3  # 13-24 mph
-    strong = 4  # 25-38 mph
-    gale = 5  # 39-54 mph
-    violentGale = 6  # 55-72 mph
-    hurricane = 7  # 73+ mph
-
-
-class WindDirection(Enum):
-    north = 1
-    northeast = 2
-    east = 3
-    southeast = 4
-    south = 5
-    southwest = 6
-    west = 7
-    northwest = 8

@@ -6,12 +6,7 @@ import sys
 
 class WorkerSignals(QtCore.QObject):
     '''
-    Defines the signals available from a running worker thread.
-
-    Supported signals are:
-
-    finished
-        No data
+    Defines the signals available from a running worker thread:
     
     error
         `tuple` (exctype, value, traceback.format_exc() )
@@ -19,17 +14,11 @@ class WorkerSignals(QtCore.QObject):
     result
         `object` data returned from processing, anything
 
-    progress
-        `int` indicating % progress 
-
     '''
     started = QtCore.Signal()
     finished = QtCore.Signal()
     error = QtCore.Signal(tuple)
     result = QtCore.Signal(object)
-    progress = QtCore.Signal(int)
-
-
 
 
 class Worker(QtCore.QRunnable):
